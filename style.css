@@ -1,43 +1,51 @@
+/* step1 畫框線*/
+
 * {
   box-sizing: border-box;
 }
 
 #nav {
-  border: 1px solid red;
   background-color: #ff6600;
+  width: 100%;
+  /*border: 1px solid red;/* 提示用匡線 做完可刪除*/
 
-  position: fixed;  /*固定選單位置*/
+  /* step13 fixed 要求 #nav 永遠固定在視窗的最左上角*/
+   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-
-  z-index: 100; /*景深的概念 數字越大越上面*/
+  z-index: 100; /*並且在最上方*/
 }
 
 #content {
-  border: 1px solid blue;
+/*  border: 1px solid blue;/* 提示用匡線 做完可刪除*/
 
-  border: 1px solid blue; /* 避免漂浮選單擋住about*/
-  position: relative;
+/* step15 因為about被擋住了,所以要微調位置 避免被nav擋住*/
+position: relative;
   top: 78px;
   padding: 15px;
 }
+/* step16 當切不同區域 也會有擋住的問題,一起修正*/
+#content > .container > div {
+  padding: 78px 0;
+}
+
+/* step14 由於現在使用者可能會用各式各樣的螢幕尺寸來觀看網頁，我們不希望網頁的排版遇到崩潰的狀況，因此我們會加一層容器，讓網頁內容保持在固定的範圍裡，這就是 .container 這層容器的作用。
+.container {
+  border: 1px solid #ccc;
+}*/
 
 .container {
-
-
-  border: 1px solid #ccc;  /* 選單置中*/
+  /*border: 1px solid #ccc;  /* 標示用，完成排版後刪除*/
   width: 800px;
   margin: 0 auto;
 }
 
 #about, #my-work, #contact-me {
-  border: 1px solid yellow;
+ /* border: 1px solid yellow;/* 提示用匡線 做完可刪除*/
 }
 
-.menu li {
-  display: inline-block;
-
+/* step2 設定選單*/
+.menu li { /* 設定選單按鈕*/
   width: 150px;
   padding: 10px 0px;
 
@@ -48,8 +56,23 @@
   text-align: center;
   background-color: #ff6600;
   color: #fff;
-}
 
+  display: inline-block; /* step3 調整box排序 */
+}
+/* step2 設定選單
+第一個動作是設定 list-style-type 把選單符號去掉
+接下來設定 background-color 和 border 樣式，先在視覺上區分每個選項的邊界
+由於 li 是 block 元素，預設佔滿一整行，所以你會修改 width，變成按鈕該有的寬度
+接下來要調整盒子屬性，抓到 padding 和 margin 的距離，到這裡按鈕差不多成形了
+最後你會細調樣式，包括：
+text-align：center 讓文字在按鈕正中間
+background-color：#ff6600 將按鈕顏色設為 #ff6600
+border-radius：8px 使 border 出現圓角
+color：#fff 把文字改成白色
+*/
+
+
+/* step5 幫選單加上游標移過hover 會產生的效果*/
 a {
   display: block;
   color: #fff;
@@ -66,14 +89,9 @@ li:hover a {
   font-weight: 800;
 }
 
-/* about me */
-
+/* step7 讓 about me 照片浮動至左邊 並設定大小 */
 #my-avatar {
-  border: 1px solid red;  /* 標示用，排版完記得拿掉 */
-  float: left;
-}
-
-#my-avatar {
+ /* border: 1px solid red;  /* 標示用，排版完記得拿掉 */
   float: left;
   margin-right: 20px;
 }
@@ -82,8 +100,15 @@ li:hover a {
   width: 200px;
 }
 
-/* 排版微調 */
-
+/* step8 讓個人簡介美化一下 
+讓 h1 和 h3 的距離靠近一些——透過定義 margin 來達成目的。
+把水平線的顏色調淡，讓它看起來沒那麼明顯。
+讓表格內容整齊一些，包括：
+讓標題欄 (th) 的內容靠左；
+讓表格資料 (td) 離標題遠一點；
+讓 td 和 th 的內容靠上對齊；
+調整字體顏色與大小。
+*/
 h1 {
   margin-bottom: 0;
 }
@@ -110,55 +135,53 @@ hr {
   border: 0.5px solid #eee;
 }
 
-/* my work */
 
+/* step10 設定my work 圖片 讓他們match 文字致中呈現*/
 .item {
   position: relative;
-  max-width: 30%;
+  max-width: 30%;  /* 設定父點 最大寬度 其他子點不能超過 */
 
-  display: inline-block; /*改變排列方式*/
-  margin-bottom: 10px;
+  display: inline-block;  /* 設定整體圖片box排序方式 */
+  margin-bottom: 10px;  
 }
 
 .item img{
-  width: 100%;
+  width: 100%;  /* 圖片大小由父點的 限制決定 這邊讓他100即可 */
 }
 
 .item-info {
-  border: 1px solid red;                    /* 標示用，排版完記得拿掉 */
+  /*border: 1px solid red;                    /* 標示用，排版完記得拿掉 */
   background-color: rgba(255,255,255,.8);   /* 背景半透明 */
 
   position: absolute;
   top: 0;
   left: 0;
 
-  width: 100%;
+   /* 設定文字呈現方式 */
+  width: 100%;   
   height: 100%;
-
   text-align: center;
   padding: 25px 10px;
 
-  opacity: 0;
-  /* display: none;*/
 
+   opacity: 0; /* 預設看不到item info 內容 */
 }
 
+/* 滑鼠游標滑過去 就看的到 */
 .item-info:hover {
   opacity: 1;
-  /* display: block; */
 }
 
-
+/* step12 設定表單囉 */
 #contact-me {
-  border: 1px solid green;  /* 標示用，完成後刪除 */
+  /*border: 1px solid green;  /* 標示用，完成後刪除 */
 }
 
 form.contact-form {
-  border: 1px solid red;  /* 標示用，完成後刪除 */
+ /* border: 1px solid red;  /* 標示用，完成後刪除 */
   width: 50%;
   margin: 0 auto;
 }
-
 
 .form-row {
   margin-bottom: 15px;
@@ -174,7 +197,7 @@ form.contact-form {
 
 .form-row textarea {
   resize: none;
-  height: 4em;
+  height: 4em; /* <textarea> 預設是使用者可以拖曳元素的右下角來改變大小，但我們使用 resize:none 把這個功能關掉，並將輸入框的高度設為 4 行字。*/
 }
 
 .form-row button {
@@ -184,7 +207,7 @@ form.contact-form {
   cursor: pointer;
 }
 
-.form-row button[type="sumbit"] {
+.form-row button[type="submit"] { /*由於有兩個按鈕，因此我們使用 button[type="submit"] 的寫法來區分，讓 reset 鈕與 submit 鈕的樣式有所區分。*/
   background-color: #5995DA;
   color: #FFFFFF;
 }
@@ -197,16 +220,18 @@ form.contact-form {
   background-color: #407FC7;
 }
 
-#content > .container > div {
-  padding: 78px 0;
-}
-
-
+/* step17 設定水平線*/
 hr.bar {
   border: 2px solid #ff6600;
   width: 80px;
 }
 
+/* step18 微調*/
+/*
+讓 .menu 的按鈕靠右
+讓 h1 元素置中
+#my-work 圖片置中
+*/
 
 .menu {
   float: right;
@@ -222,15 +247,17 @@ h1 {
 }
 
 #my-work-gallery {
-    text-align: center; /*ccccc*/
-    
+    text-align: center;
 }
 
+/* 這裡要換練習ＲＷＤ囉！！！！*/
 
-
-/*
-  原始 css code
-*/
+@media screen and (min-width: 1024px) {
+  .menu-button ,
+  .menu-button-checkbox { /* 3 把小勾勾跟 選單按鈕結合*/
+    display: none; /* let button only show in mobile mode */
+  }
+}
 
 
 @media screen and (max-width: 1023px) {
@@ -238,46 +265,12 @@ h1 {
   /*
     手機版的 css 都寫在這邊
   */   
-
-}
-
-
-@media screen and (max-width: 1023px) {
   .container {
     width: auto;
   }
 
-#my-avatar {
-  width: 100%; 
-}
-
-#my-avatar img {
-  display: block;
-  margin: 15px auto;
-}
-  /*
-    往下繼續手機版 css code
-  */
-}
-
-
-@media screen and (min-width: 1024px) {
-  .menu-button ,
-  .menu-button-checkbox {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 1023px) {
-  .container {
-    width: auto;
-
-     .item {
-    max-width: 100%;
-  }
-  }
-
-  .menu-button {
+  /* 1 美化手機版按鈕*/
+    .menu-button {
     float: right;
     font-size: 25px;
     line-height: 40px;
@@ -287,20 +280,24 @@ h1 {
     border: 0;
   }
 
- .menu-button-checkbox {
+.menu-button-checkbox { /* 4 設定隱藏效果 結合 勾勾選項*/
     position: fixed;
     top: 0;
     right: 0;
     width: 55px;
     height: 40px;
+    opacity: 0; /* 5 勾勾隱藏 讓他看起來是在按我們的東西 */
   }
 
-  .menu-button-checkbox:checked ~ .menu {
+  .menu-button-checkbox:checked ~ .menu { /* 4 設定隱藏效果 結合 勾勾選項*/
     display: block;
   }
 
- .menu {
-   display: none;
+
+
+  /* 2 並把他移過來右邊*/
+.menu {
+     display: none;  /* 4 設定隱藏效果 結合 勾勾選項*/
     margin-top: 0;
     padding-left: 0;
     position: fixed;
@@ -316,20 +313,24 @@ h1 {
     border-radius: 0;
   }
 
-
-
-  /*
-    往下繼續手機版 css code
-  */
+#my-avatar {/* 6 微調文字跑位效果 */
+  width: 100%; 
 }
 
+#my-avatar img {/* 6 微調文字跑位效果 */
+  display: block;
+  margin: 15px auto;
+}
 
+.item { /* 6 微調圖片框框效果 column drop */
+    max-width: 100%;
+  }
 
+  form.contact-form { /* 6 微調 contact me  */
+    width: 80%;
+  }
 
-
-
-
-
+}
 
 
 
